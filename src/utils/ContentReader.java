@@ -3,7 +3,7 @@ package utils;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.*;
 
 public abstract class ContentReader {
 
@@ -22,5 +22,22 @@ public abstract class ContentReader {
             allNumbers[i] = numbers.get(i);
         }
         return allNumbers;
+    }
+
+    public static Map<Integer, ArrayList<Integer>> getAdjacencyList(String fileName) throws java.io.IOException {
+        InputStream is = ContentReader.class.getResourceAsStream(fileName);
+        Map<Integer, ArrayList<Integer>> adjacencyList = new HashMap<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] vertices = line.split("\t");
+            ArrayList<Integer> adjacentVertices = new ArrayList<>();
+            for (int i = 1; i < vertices.length; i++) {
+                adjacentVertices.add(Integer.parseInt(vertices[i]));
+            }
+            adjacencyList.put(Integer.parseInt(vertices[0]), adjacentVertices);
+        }
+        br.close();
+        return adjacencyList;
     }
 }
