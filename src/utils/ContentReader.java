@@ -40,4 +40,18 @@ public abstract class ContentReader {
         br.close();
         return adjacencyList;
     }
+
+    public static ArrayList<Edge> getEdges(String fileName) throws java.io.IOException {
+        InputStream is = ContentReader.class.getResourceAsStream(fileName);
+        ArrayList<Edge> edges = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] vertices = line.split(" ");
+            Edge edge = new Edge(Integer.parseInt(vertices[0]), Integer.parseInt(vertices[1]));
+            edges.add(edge);
+        }
+        br.close();
+        return edges;
+    }
 }
